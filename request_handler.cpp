@@ -15,6 +15,7 @@
 #include "mime_types.hpp"
 #include "reply.hpp"
 #include "request.hpp"
+#include "log.hpp"
 
 namespace http {
 namespace server {
@@ -59,6 +60,7 @@ void request_handler::handle_request(const request& req, reply& rep)
 
   // Open the file to send back.
   std::string full_path = doc_root_ + request_path;
+  BOOST_LOG_SEV(slg, info) << "full path:" << full_path;
   std::ifstream is(full_path.c_str(), std::ios::in | std::ios::binary);
   if (!is)
   {
@@ -114,6 +116,7 @@ bool request_handler::url_decode(const std::string& in, std::string& out)
       out += in[i];
     }
   }
+  BOOST_LOG_SEV(slg, info) << "in:" << in << ", out:" << out;
   return true;
 }
 
